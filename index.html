@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <script>
-  if (!localStorage.getItem("logado")) {
-    window.location.href = "login.html";
-  }
-</script>
-  <meta charset="UTF-8">
+ <meta charset="UTF-8">
   <title>Controle Financeiro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-   Se não for redirecionado automaticamente, <a href="login.html">clique aqui</a>.
+   
 
   <nav class="menu">
     <input type="checkbox" id="menu-toggle" style="display:none;">
@@ -102,5 +97,26 @@
 
   <!-- Script principal -->
   <script src="script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<button onclick="logout()">Sair</button>
+
+<script>
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      window.location.href = "login.html";
+    });
+  }
+</script>
+
+<script>
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      window.location.href = "login.html";
+    }
+  });
+
+  
+</script>
 </body>
 </html>
