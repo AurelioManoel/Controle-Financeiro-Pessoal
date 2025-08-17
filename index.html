@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle Financeiro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="menu">
+    <input type="checkbox" id="menu-toggle" style="display:none;">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <ul class="menu-links">
+      <li><a href="analise.html">📊 ANALISE</a></li>
+      <li><a href="pagina2.html">📁 RELATORIO</a></li>
+      <li><a href="pagina3.html">📁 CARTÃO</a></li>
+      <li><a href="index.html">🏠 HOME</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Controle Financeiro</h1>
+
+    <form id="form-transacao">
+      <label for="tipo">Tipo:</label>
+      <select id="tipo" required>
+        <option value="receita">Receita</option>
+        <option value="despesa">Despesa</option>
+      </select>
+
+      <label for="descricao">Descrição:</label>
+      <input type="text" id="descricao" required>
+
+      <label for="valor">Valor:</label>
+      <input type="number" id="valor" step="0.01" required>
+
+      <label for="data">Data:</label>
+      <input type="date" id="data" required>
+
+      <label for="fonte">Fonte Pagadora:</label>
+      <select id="fonte" required>
+        <option value="">Selecione</option>
+        <option value="MÃE">MÃE</option>
+        <option value="FILHOS">FILHOS</option>
+        <option value="MARCELO">MARCELO</option>
+        <option value="INVESTIMENTO">INVESTIMENTO</option>
+        <option value="OUTROS">OUTROS</option>
+      </select>
+
+      <label for="parcelas">Parcelas (se despesa):</label>
+      <input type="number" id="parcelas" min="1" value="1">
+
+      <button type="submit">Adicionar Transação</button>
+    </form>
+
+    <div class="saldo">
+      <h2>Saldo Atual: <span id="saldo">R$ 0,00</span></h2>
+    </div>
+
+    <h2>Histórico de Transações</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Data</th>
+          <th>Fonte Pagadora</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="historico"></tbody>
+    </table>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <!-- Configuração Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC19E3MVbm6CLw3YwQS8qmbxxwXqho6BmQ",
+      authDomain: "controle-financeiro-4de81.firebaseapp.com",
+      databaseURL: "https://controle-financeiro-4de81-default-rtdb.firebaseio.com", // ✅ CORRETA
+      projectId: "controle-financeiro-4de81",
+      storageBucket: "controle-financeiro-4de81.appspot.com",
+      messagingSenderId: "760886734865",
+      appId: "1:760886734865:web:e9f9bcc410d1e1647581b0",
+      measurementId: "G-J8XW3NVTEH"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
+  <!-- Script principal -->
+  <script src="script.js"></script>
+</body>
+</html>

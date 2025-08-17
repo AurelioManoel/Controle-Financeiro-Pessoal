@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Análise de Despesas</title>
+  <link rel="stylesheet" href="analise.css">
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <nav class="menu">
+    <input type="checkbox" id="menu-toggle" style="display:none;">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <ul class="menu-links">
+       <li><a href="analise.html">📊 ANALISE</a></li>
+      <li><a href="pagina2.html">📁 RELATORIO</a></li>
+      <li><a href="pagina3.html">📁 CARTÃO</a></li>
+      <li><a href="index.html">🏠 HOME</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Análise de Despesas Parceladas</h1>
+
+    <label for="filtro-fonte">Fonte Pagadora:</label>
+    <select id="filtro-fonte">
+      <option value="">Selecione</option>
+      <option value="MÃE">MÃE</option>
+      <option value="FILHOS">FILHOS</option>
+      <option value="MARCELO">MARCELO</option>
+      <option value="INVESTIMENTO">INVESTIMENTO</option>
+      <option value="OUTROS">OUTROS</option>
+    </select>
+
+    <label for="filtro-mes">Mês:</label>
+    <select id="filtro-mes">
+      <option value="">Carregando...</option>
+    </select>
+
+    <button onclick="calcular()">VERIFICAR</button>
+
+    <div class="cards" id="resultado"></div>
+
+    <canvas id="graficoDespesas" width="400" height="200"></canvas>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="analise.js"></script>
+  
+  
+</body>
+</html>

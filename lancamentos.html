@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Todos os Lançamentos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="menu">
+    <input type="checkbox" id="menu-toggle" style="display:none;">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <ul class="menu-links">
+      <li><a href="analise.html">📊 ANALISE</a></li>
+      <li><a href="pagina2.html">📁 RELATORIO</a></li>
+      <li><a href="pagina3.html">📁 CARTÃO</a></li>
+      <li><a href="index.html">🏠 HOME</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Todos os Lançamentos</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Descrição</th>
+          <th>Valor</th>
+          <th>Data</th>
+          <th>Fonte Pagadora</th>
+        </tr>
+      </thead>
+      <tbody id="tabela-lancamentos"></tbody>
+    </table>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <!-- Configuração Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC19E3MVbm6CLw3YwQS8qmbxxwXqho6BmQ",
+      authDomain: "controle-financeiro-4de81.firebaseapp.com",
+      databaseURL: "https://controle-financeiro-4de81-default-rtdb.firebaseio.com",
+      projectId: "controle-financeiro-4de81",
+      storageBucket: "controle-financeiro-4de81.appspot.com",
+      messagingSenderId: "760886734865",
+      appId: "1:760886734865:web:e9f9bcc410d1e1647581b0",
+      measurementId: "G-J8XW3NVTEH"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const tabela = document.getElementById('tabela-lancamentos');
+
+    db.ref('transacoes').orderByChild('data').once('value', (snapshot) => {
+      const dados = snapshot.val();
+      if (dados) {
+        const lista = Object.values(dados).sort((a, b) => new Date(b.data) - new Date(a.data));
+        lista.forEach((item) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${item.tipo}</td>
+            <td>${item.descricao}</td>
+            <td>R$ ${parseFloat(item.valor).toFixed(2)}</td>
+            <td>${item.data}</td>
+            <td>${item.fonte}</td>
+          `;
+          tabela.appendChild(tr);
+        });
+      } else {
+        tabela.innerHTML = '<tr><td colspan="5">Nenhum lançamento encontrado.</td></tr>';
+      }
+    });
+  </script>
+</body>
+</html>

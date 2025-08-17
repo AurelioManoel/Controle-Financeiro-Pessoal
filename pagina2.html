@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Despesas Mensais</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="menu">
+    <input type="checkbox" id="menu-toggle" style="display:none;">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <ul class="menu-links">
+      <li><a href="analise.html">📊 ANALISE</a></li>
+      <li><a href="pagina2.html">📁 RELATORIO</a></li>
+      <li><a href="pagina3.html">📁 CARTÃO</a></li>
+      <li><a href="index.html">🏠 HOME</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Despesas Mensais</h1>
+    <div id="cards-container" class="cards"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <!-- Configuração Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC19E3MVbm6CLw3YwQS8qmbxxwXqho6BmQ",
+      authDomain: "controle-financeiro-4de81.firebaseapp.com",
+      databaseURL: "https://controle-financeiro-4de81-default-rtdb.firebaseio.com",
+      projectId: "controle-financeiro-4de81",
+      storageBucket: "controle-financeiro-4de81.appspot.com",
+      messagingSenderId: "760886734865",
+      appId: "1:760886734865:web:e9f9bcc410d1e1647581b0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
+  <!-- Script principal -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const container = document.getElementById('cards-container');
+
+      db.ref('despesasParceladas').on('value', snapshot => {
+        const despesas = [];
+        snapshot.forEach(child => {
+          despesas.push(child.val());
+        });
+
+        // ✅ Salva os dados no localStorage
+        localStorage.setItem('despesasParceladas', JSON.stringify(despesas));
+
+        // Agrupa por mês
+        const agrupadas = despesas.reduce((acc, despesa) => {
+          acc[despesa.mes] = acc[despesa.mes] || [];
+          acc[despesa.mes].push(despesa);
+          return acc;
+        }, {});
+
+        container.innerHTML = '';
+
+        for (const mes in agrupadas) {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `<h2>${mes}</h2>`;
+
+          let total = 0;
+          agrupadas[mes].forEach(d => {
+            total += d.valorParcela;
+            card.innerHTML += `<p>${d.descricao}: R$ ${d.valorParcela.toFixed(2)}</p>`;
+          });
+
+          card.innerHTML += `<strong>Total: R$ ${total.toFixed(2)}</strong>`;
+          container.appendChild(card);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
