@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta http-equiv="refresh" content="0; URL=login.html" />
-    <title>Redirecionando...</title>
+  <script>
+  if (!localStorage.getItem("logado")) {
+    window.location.href = "login.html";
+  }
+</script>
   <meta charset="UTF-8">
   <title>Controle Financeiro</title>
   <link rel="stylesheet" href="style.css">
